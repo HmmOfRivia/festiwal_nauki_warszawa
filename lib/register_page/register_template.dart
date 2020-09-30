@@ -140,7 +140,7 @@ class _RegisterTemplateState extends State<RegisterTemplate> {
       width: double.infinity,
       height: 50,
       child: RaisedButton(
-        onPressed: () => print("XD"),
+        onPressed: () => {},
         splashColor: Color(0xFF5c0075),
         elevation: 5.0,
         shape: RoundedRectangleBorder(

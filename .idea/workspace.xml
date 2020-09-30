@@ -4,9 +4,21 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46bdd19b-7326-440c-801e-6d5e8c6ab48b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="46bdd19b-7326-440c-801e-6d5e8c6ab48b" name="Default Changelist" comment="Extracted hardcoded Strings to new file.">
+      <change afterPath="$PROJECT_DIR$/lib/utils/Strings.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/SearchPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/SearchPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/events_slider/events_slider_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/events_slider/events_slider_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/map/map_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/map/map_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/detail_page/detail_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/detail_page/detail_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home_page/events_slider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home_page/events_slider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/home_page/events_slider_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/home_page/events_slider_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/login_page/login_template.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/login_page/login_template.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/map_page/map_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/map_page/map_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/register_page/register_template.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/register_page/register_template.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/events_detail_page_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/events_detail_page_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/events_table_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/events_table_repository.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +35,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="SF" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1fpIs7O35ojDh8oJDIKICflDtKh" />
@@ -32,7 +49,7 @@
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../fluter_mapa/flutter_maps_bloc-master" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -73,10 +90,16 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Extracted hardcoded Strings to new file." />
+    <option name="LAST_COMMIT_MESSAGE" value="Extracted hardcoded Strings to new file." />
   </component>
 </project>

@@ -1,10 +1,10 @@
 import 'package:festiwal_nauki_warszawa/blocs/authentication/authentication_bloc.dart';
 import 'package:festiwal_nauki_warszawa/blocs/login/login_bloc.dart';
 import 'package:festiwal_nauki_warszawa/register_page/register_screen.dart';
-import 'package:festiwal_nauki_warszawa/register_page/register_template.dart';
 import 'package:festiwal_nauki_warszawa/repositories/login_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:festiwal_nauki_warszawa/utils/Strings.dart' as Strings;
 
 import 'login_styles.dart';
 
@@ -41,7 +41,7 @@ class _LoginTemplateState extends State<LoginTemplate> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Logowanie...'),
+                    Text(Strings.LOG_IN_MESSAGE),
                     CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
@@ -64,7 +64,7 @@ class _LoginTemplateState extends State<LoginTemplate> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Logowanie się nie powiodło'),
+                    Text(Strings.LOGIN_ERROR),
                     Icon(Icons.error),
                   ],
                 ),
@@ -100,9 +100,9 @@ class _LoginTemplateState extends State<LoginTemplate> {
 
   Widget _buildLogo() {
     return Container(
-      padding: EdgeInsets.only(top: 20.0),
+      padding: EdgeInsets.only(top: 40.0),
       width: double.infinity,
-      height: 140,
+      height: 160,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -116,7 +116,7 @@ class _LoginTemplateState extends State<LoginTemplate> {
 
   Widget _buildText() {
     return Text(
-      'Zaloguj się',
+      Strings.LOG_IN,
       style: TextStyle(
           color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
     );
@@ -127,7 +127,7 @@ class _LoginTemplateState extends State<LoginTemplate> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Email",
+          Strings.EMAIL,
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
@@ -146,7 +146,7 @@ class _LoginTemplateState extends State<LoginTemplate> {
                   Icons.email,
                   color: Colors.white,
                 ),
-                hintText: "Wpisz swój email",
+                hintText: Strings.EMAIL_HINT,
                 hintStyle: kHintTextStyle),
           ),
         )
@@ -159,13 +159,16 @@ class _LoginTemplateState extends State<LoginTemplate> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Hasło",
+          Strings.PASSWORD,
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          alignment: Alignment.centerLeft, 
+          decoration: BoxDecoration(
+            color: Color(0x66D2006B),
+            borderRadius: BorderRadius.circular(20)
+          ),
           height: 50,
           child: TextField(
             controller: _passwordController,
@@ -179,7 +182,7 @@ class _LoginTemplateState extends State<LoginTemplate> {
                   Icons.lock,
                   color: Colors.white,
                 ),
-                hintText: "Wpisz swoje hasło",
+                hintText: Strings.PASSWORD_HINT,
                 hintStyle: kHintTextStyle),
           ),
         )
@@ -200,7 +203,7 @@ class _LoginTemplateState extends State<LoginTemplate> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: Colors.white,
         child: Text(
-          'Zaloguj',
+          Strings.LOG_IN,
           style: TextStyle(color: Color(0xFF5c0075)),
         ),
       ),
@@ -214,7 +217,7 @@ class _LoginTemplateState extends State<LoginTemplate> {
           return RegisterScreen();
         }));
       },
-      child: Text('Nie masz konta? Zarejestruj się!',
+      child: Text(Strings.NEW_ACCOUNT,
           style: TextStyle(color: Colors.white)),
     );
   }

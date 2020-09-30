@@ -1,5 +1,4 @@
 import 'package:festiwal_nauki_warszawa/detail_page/detail_page.dart';
-import 'package:festiwal_nauki_warszawa/widgets/background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +22,7 @@ class EventCards extends StatelessWidget {
             child: ListView.builder(
                 itemCount: eventsData.length,
                 itemBuilder: (context, int index) {
-                  return buildEventCard(
+                  return _buildEventCard(
                       context,
                       eventsData[index].nid,
                       eventsData[index].title,
@@ -38,7 +37,7 @@ class EventCards extends StatelessWidget {
     ));
   }
 
-  buildEventCard(context, nid, title, host, street, date, domain) {
+  _buildEventCard(context, nid, title, host, street, date, domain) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
       child: Stack(
@@ -46,88 +45,106 @@ class EventCards extends StatelessWidget {
           Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                color: Colors.grey[100], borderRadius: BorderRadius.circular(20)),
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(20)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildTitle(title),
-                _buildAdressRow(host,street),
+                _buildAdressRow(host, street),
                 Divider(thickness: 2),
                 _buildDateRow(date),
                 Divider(thickness: 2),
                 _buildDomainRow(domain),
-                SizedBox(height: 10,)
-
+                SizedBox(
+                  height: 10,
+                )
               ],
             ),
           ),
           Positioned(
-            right: 20,
-            bottom: 20,
-            child: FloatingActionButton(
-              heroTag: null,
-              backgroundColor: Color(0xFF21005e),
-              child: Icon(Icons.forward, size: 30),
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(nid: nid)));},
-          )
-          )
+              right: 20,
+              bottom: 20,
+              child: FloatingActionButton(
+                heroTag: null,
+                backgroundColor: Color(0xFF21005e),
+                child: Icon(Icons.forward, size: 30),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DetailPage(nid: nid)));
+                },
+              ))
         ],
       ),
     );
   }
 
-  _buildDomainRow(domain){
+  _buildDomainRow(domain) {
     return Container(
       child: Row(
         children: [
           Expanded(
               flex: 2,
-              child: Icon(Icons.turned_in, size: 28,)
-          ),
+              child: Icon(
+                Icons.turned_in_not,
+                size: 28,
+                color: Color(0xFFD2006B)
+              )),
           Expanded(
               flex: 8,
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
-                child: Text(domain, style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.bold
-                )),
-              )
-          )
+                child: Text(domain,
+                    style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color(0xB3000000)
+                    )),
+              ))
         ],
       ),
     );
   }
 
-  _buildDateRow(date){
+  _buildDateRow(date) {
     return Container(
       child: Row(
         children: [
           Expanded(
               flex: 2,
-              child: Icon(Icons.access_time, size: 28,)
-          ),
+              child: Icon(
+                Icons.access_time,
+                size: 28,
+                color: Color(0xFFD2006B)
+              )),
           Expanded(
               flex: 8,
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
-                child: Text(date, style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.bold
-                )),
-              )
-          )
+                child: Text(date,
+                    style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.bold,fontSize: 16,
+                        color: Color(0xB3000000)
+                    )),
+              ))
         ],
       ),
     );
   }
 
-  _buildAdressRow(host, street){
+  _buildAdressRow(host, street) {
     return Container(
       child: Row(
         children: [
           Expanded(
-            flex: 2,
-            child: Icon(Icons.map, size: 28,)
-          ),
+              flex: 2,
+              child: Icon(
+                Icons.my_location,
+                size: 28,
+                color: Color(0xFFD2006B),
+              )),
           Expanded(
               flex: 8,
               child: Container(
@@ -135,35 +152,38 @@ class EventCards extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(host, style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.bold
-                    )),
-                    SizedBox(height: 3,),
-                    Text(street, style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w500
-                    ))
+                    Text(host,
+                        style: GoogleFonts.roboto(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Color(0xB3000000))),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(street,
+                        style:
+                            GoogleFonts.roboto(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color(0xB3000000)))
                   ],
                 ),
-              )
-          )
+              ))
         ],
       ),
     );
   }
 
-  _buildTitle(title){
+  _buildTitle(title) {
     return Container(
       height: 70,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF21005e), Color(0xFFD2006B),],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight
-
-          ),
+          gradient: LinearGradient(colors: [
+            Color(0xFF21005e),
+            Color(0xFFD2006B),
+          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20),
-              topLeft: Radius.circular(20))),
+              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
       child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
           alignment: Alignment.centerLeft,
@@ -172,12 +192,8 @@ class EventCards extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.openSans(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-            ),
-          )
-      ),
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          )),
     );
   }
 }

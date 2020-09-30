@@ -3,10 +3,10 @@ import 'package:festiwal_nauki_warszawa/blocs/authentication/authentication_bloc
 import 'package:festiwal_nauki_warszawa/blocs/events_slider/events_slider_bloc.dart';
 import 'package:festiwal_nauki_warszawa/repositories/events_table_repository.dart';
 import 'package:festiwal_nauki_warszawa/utils/User.dart';
-import 'package:festiwal_nauki_warszawa/widgets/background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:festiwal_nauki_warszawa/utils/Strings.dart' as Strings;
 
 import 'events_slider.dart';
 
@@ -52,7 +52,7 @@ class EventsSliderTemplate extends StatelessWidget {
               child: FloatingActionButton.extended(
                   icon: Icon(Icons.add),
                   backgroundColor: Color(0xFFD2006B),
-                  label: Text('Twoje wydarzenia')),
+                  label: Text(Strings.YOUR_EVENTS)),
             ),
           ),
           Spacer(),
@@ -73,8 +73,7 @@ class EventsSliderTemplate extends StatelessWidget {
                 return Center(
                     child: CircularProgressIndicator(
                   backgroundColor: Color(0xFF21005e),
-                  valueColor:
-                      new AlwaysStoppedAnimation<Color>(Color(0xFFD2006B)),
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFD2006B)),
                 ));
               }
               if (state is MeetingsLoaded) {
@@ -83,7 +82,7 @@ class EventsSliderTemplate extends StatelessWidget {
               if (state is SearchPageState) {
                 return SearchPage(eventData: state.meetingsData);
               }
-              return Container();
+              return Center(child: Text(Strings.ERROR_MESSAGE));
             },
           ),
         ],
@@ -103,13 +102,13 @@ class EventsSliderTemplate extends StatelessWidget {
                   BlocProvider.of<EventsSliderBloc>(context).currentIndex,
               items: [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.group), title: Text("Spotkania")),
+                    icon: Icon(Icons.group), title: Text(Strings.MEETINGS)),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.book), title: Text("Lekcje")),
+                    icon: Icon(Icons.book), title: Text(Strings.LESSONS)),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.rate_review), title: Text("Wykłady")),
+                    icon: Icon(Icons.rate_review), title: Text(Strings.LECTURES)),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.search), title: Text("Wyszukaj"))
+                    icon: Icon(Icons.search), title: Text(Strings.SEARCH))
               ],
               onTap: (index) => BlocProvider.of<EventsSliderBloc>(context)
                   .add((PageTapped(index: index))));

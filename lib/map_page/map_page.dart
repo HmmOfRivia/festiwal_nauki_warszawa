@@ -2,7 +2,6 @@ import 'package:festiwal_nauki_warszawa/blocs/map/map_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPage extends StatefulWidget {
@@ -85,6 +84,7 @@ class _MapPageState extends State<MapPage> {
               ),
               SizedBox(width: 20,),
               FloatingActionButton.extended(
+                backgroundColor: Color(0xFF21005e),
                 icon: Icon(Icons.navigation),
                 label: Text('Nawiguj'),
                 onPressed: () => BlocProvider.of<MapBloc>(context)..add(NavigationTap()),

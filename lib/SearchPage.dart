@@ -1,71 +1,68 @@
 import 'package:festiwal_nauki_warszawa/home_page/events_slider.dart';
 import 'package:flutter/material.dart';
-class SearchPage extends StatefulWidget{
-  List eventData;
+
+class SearchPage extends StatefulWidget {
+  final List eventData;
   SearchPage({this.eventData});
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
+  List _filteredEventData = List();
+  String _selectedChoice;
+  String _selectedText = '';
 
-  List filteredEventData = List();
-  String selectedChoice;
-  String selectedText;
   @override
   void initState() {
-    filteredEventData = widget.eventData;
-    selectedText = '';
+    _filteredEventData = widget.eventData;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            _buidChipList(),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: "wyszukaj po frazie",
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide( color: Color(0xFFD2006B))
-                  )
-                ),
-                onChanged: (string) {
-                  setState(() {
-                    selectedText = string;
-                    if(selectedChoice!=null){
-                      filteredEventData = widget.eventData.where(
-                              (e) => e.title.toLowerCase().contains(string.toLowerCase()) &&
-                              e.domain.toLowerCase().contains(selectedChoice.toLowerCase())).toList();
-                    }else {
-                      filteredEventData = widget.eventData.where(
-                              (e) => e.title.toLowerCase().contains(string.toLowerCase())).toList();
-                    }
-                  });
-                },
-              ),
-            ),
-            Expanded(
-              child: EventCards(filteredEventData)
-            )
-
-          ],
+        body: Container(
+          child: Column(
+            children: [
+              _buildChipList(),
+              _buildSearchField(),
+              Expanded(child: EventCards(_filteredEventData))
+           ],
         ),
-      )
+    ));
+  }
+
+  _buildSearchField(){
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: TextField(
+        decoration: InputDecoration(
+            labelText: "wyszukaj po frazie",
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFD2006B)))),
+        onChanged: (string) {
+          setState(() {
+            _selectedText = string;
+            if (_selectedChoice != null) {
+              _filteredEventData = widget.eventData.where((e) =>
+              e.title.toLowerCase().contains(string.toLowerCase()) &&
+                  e.domain.toLowerCase().contains(_selectedChoice.toLowerCase())).toList();
+            } else {
+              _filteredEventData = widget.eventData.where((e) =>
+                  e.title.toLowerCase().contains(string.toLowerCase())).toList();
+            }
+          });
+        },
+      ),
     );
   }
 
-  _buidChipList(){
-    
+  _buildChipList() {
     List<String> chipList = [
       "fizyczne",
       "matematyczne",
@@ -74,25 +71,31 @@ class _SearchPageState extends State<SearchPage> {
     ];
     List<Widget> choices = List();
 
-    chipList.forEach((i) { 
+    chipList.forEach((i) {
       choices.add(Container(
         padding: EdgeInsets.all(3),
         child: ChoiceChip(
           label: Text(i),
+          labelStyle: TextStyle(
+            color: _selectedChoice == i ? Colors.white: Colors.black
+          ),
           backgroundColor: Colors.grey[200],
-          selectedColor: Colors.black,
-          selected: selectedChoice==i,
+          selectedColor: Color(0xFFD2006B),
+          selected: _selectedChoice == i,
           onSelected: (selected) {
             setState(() {
-              selectedChoice = i;
-              filteredEventData = widget.eventData.where(
-                      (e) => e.title.toLowerCase().contains(selectedText.toLowerCase()) &&
-                      selectedChoice!=null && e.domain.toLowerCase().contains(selectedChoice.toLowerCase())).toList();            });
+              _selectedChoice = i;
+              _filteredEventData = widget.eventData.where((e) =>
+                e.title.toLowerCase().contains(_selectedText.toLowerCase()) &&
+                      _selectedChoice != null &&
+                      e.domain.toLowerCase().contains(_selectedChoice.toLowerCase())).toList();
+            });
           },
         ),
       ));
     });
 
-    return SingleChildScrollView(scrollDirection: Axis.horizontal ,child: Wrap(children: choices));
+    return SingleChildScrollView(
+        scrollDirection: Axis.horizontal, child: Wrap(children: choices));
   }
 }

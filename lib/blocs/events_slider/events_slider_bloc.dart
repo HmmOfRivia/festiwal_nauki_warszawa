@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:festiwal_nauki_warszawa/home_page/events_slider.dart';
 import 'package:festiwal_nauki_warszawa/repositories/events_table_repository.dart';
 import 'package:festiwal_nauki_warszawa/utils/Event.dart';
+import 'package:festiwal_nauki_warszawa/utils/Strings.dart' as Strings;
 
 part 'events_slider_event.dart';
 part 'events_slider_state.dart';
@@ -40,7 +40,7 @@ class EventsSliderBloc extends Bloc<EventsSliderEvent, EventsSliderState> {
         yield LecturesLoaded(lecturesData: data);
       }
 
-      if (currentIndex == 3){
+      if (currentIndex == 3) {
         List data = await _getMeetingsData(currentIndex);
         yield SearchPageState(meetingsData: data);
       }
@@ -50,7 +50,9 @@ class EventsSliderBloc extends Bloc<EventsSliderEvent, EventsSliderState> {
   Future<List<Event>> _getMeetingsData(currentIndex) async {
     List eventsData = _eventsTableRepository.meetingsList;
     if (eventsData.isEmpty) {
-      await _eventsTableRepository.getEvents(url: "https://festiwalnauki.edu.pl/fn-rest/spotkania-aplikacja.json", listReturned: currentIndex);
+      await _eventsTableRepository.getEvents(
+          url: Strings.API_MEETINGS,
+          listReturned: currentIndex);
       eventsData = _eventsTableRepository.meetingsList;
     }
     return eventsData;
@@ -59,7 +61,9 @@ class EventsSliderBloc extends Bloc<EventsSliderEvent, EventsSliderState> {
   Future<List<Event>> _getExpoData(currentIndex) async {
     List eventsData = _eventsTableRepository.expoList;
     if (eventsData.isEmpty) {
-      await _eventsTableRepository.getEvents(url: "https://festiwalnauki.edu.pl/fn-rest/wystawy-aplikacja.json", listReturned: currentIndex);
+      await _eventsTableRepository.getEvents(
+          url: Strings.API_EXPO,
+          listReturned: currentIndex);
       eventsData = _eventsTableRepository.expoList;
     }
     return eventsData;
@@ -68,7 +72,9 @@ class EventsSliderBloc extends Bloc<EventsSliderEvent, EventsSliderState> {
   Future<List<Event>> _getLecturesData(currentIndex) async {
     List eventsData = _eventsTableRepository.lecturesList;
     if (eventsData.isEmpty) {
-      await _eventsTableRepository.getEvents(url: "https://festiwalnauki.edu.pl/fn-rest/lekcje-aplikacja.json", listReturned: currentIndex);
+      await _eventsTableRepository.getEvents(
+          url: Strings.API_LECTURES,
+          listReturned: currentIndex);
       eventsData = _eventsTableRepository.lecturesList;
     }
     return eventsData;

@@ -1,10 +1,10 @@
 import 'package:festiwal_nauki_warszawa/blocs/detail_page/detail_page_bloc.dart';
 import 'package:festiwal_nauki_warszawa/map_page/map_page.dart';
 import 'package:festiwal_nauki_warszawa/repositories/events_detail_page_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:festiwal_nauki_warszawa/utils/Strings.dart' as Strings;
 
 class DetailPage extends StatefulWidget {
   DetailPage({this.nid});
@@ -30,26 +30,27 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
               child: BlocBuilder<DetailPageBloc, DetailPageState>(
                 builder: (BuildContext context, state) {
                   if (state is DetailEventLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                        child: CircularProgressIndicator(
+                            backgroundColor: Color(0xFF21005e),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xFFD2006B))));
                   }
                   if (state is DetailEventLoaded) {
-                    return _buildDetailPageScreen(state.event, context);
+                    return _buildDetailPageScreen(state.event);
                   }
                   return Container();
                 },
               ),
-            )
-            )
-        )
-    );
+            ))));
   }
 
-  Widget _buildDetailPageScreen(event, context) {
+  Widget _buildDetailPageScreen(event) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _buildInfoWindow2(event),
+          _buildInfoWindow(event),
           SizedBox(
             height: 50,
           ),
@@ -59,19 +60,19 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildInfoWindow2(event) {
+  Widget _buildInfoWindow(event) {
     return Container(
         margin: EdgeInsets.only(top: 40, left: 40, right: 40, bottom: 10),
         width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildInfoRow("Adres", Icons.location_on,
+            _buildInfoRow(Strings.THOROUGHFARE, Icons.location_on,
                 event.thoroughfare + ', ' + event.postalcode),
             SizedBox(height: 10),
-            _buildInfoRow("Data", Icons.calendar_today, event.date),
+            _buildInfoRow(Strings.DATE, Icons.calendar_today, event.date),
             SizedBox(height: 10),
-            _buildInfoRow("Dodatkowe Informacje", Icons.info,
+            _buildInfoRow(Strings.ADDITIONAL_INFO, Icons.info,
                 event.additionalInfo.toString()),
             SizedBox(
               height: 20,
@@ -81,7 +82,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
               children: [
                 FloatingActionButton.extended(
                     icon: Icon(Icons.location_on),
-                    label: Text('Mapa'),
+                    label: Text(Strings.MAP),
                     backgroundColor: Color(0xFF21005e),
                     heroTag: null,
                     onPressed: () {
@@ -93,7 +94,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                     }),
                 FloatingActionButton.extended(
                     icon: Icon(Icons.assignment),
-                    label: Text('Zapisz się'),
+                    label: Text(Strings.SIGN_UP),
                     backgroundColor: Color(0xFFD2006B),
                     heroTag: null,
                     onPressed: () {})
@@ -135,97 +136,6 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildInfoWindow(event) {
-    return Container(
-        margin: EdgeInsets.only(top: 40, left: 40, right: 40, bottom: 10),
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                  color: Color(0xFFD2006B),
-                  offset: Offset(4, 4),
-                  blurRadius: 4,
-                  spreadRadius: 1),
-              BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(-4, -4),
-                  blurRadius: 4,
-                  spreadRadius: 1)
-            ]),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: 10, top: 10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.map,
-                    size: 30,
-                    color: Color(0xFFD2006B),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    event.thoroughfare,
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16, color: Colors.grey),
-                  )
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.access_time,
-                    size: 30,
-                    color: Color(0xFFD2006B),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    event.date,
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16, color: Colors.grey),
-                  )
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.title,
-                    size: 30,
-                    color: Color(0xFFD2006B),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    event.type,
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16, color: Colors.grey),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ));
-  }
-
   Widget _buildDescriptionWidget(event) {
     AnimationController controller =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
@@ -240,15 +150,8 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.white,
-                offset: Offset(-4, -4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

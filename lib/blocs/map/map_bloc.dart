@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:core';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:festiwal_nauki_warszawa/utils/Strings.dart' as Strings;
 
 part 'map_event.dart';
 part 'map_state.dart';
@@ -16,8 +18,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   Position placePosition;
   List<Marker> markers = [];
   PolylinePoints polylinePoints;
-  List<LatLng> polylineCoords = [];
-  Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
+  Map<PolylineId, Polyline> polylineMap = {};
 
   @override
   Stream<MapState> mapEventToState(
@@ -25,44 +27,44 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   ) async* {
     if (event is MapInitial) {
       try {
-        placePosition = await findCoords(event.thoroughfare);
+        placePosition = await _findCoordinates(event.thoroughfare);
         LatLng latLng = LatLng(placePosition.latitude, placePosition.longitude);
-        markers.add(buildMarker(latLng, BitmapDescriptor.defaultMarker));
+        markers.add(_buildMarker(latLng, BitmapDescriptor.defaultMarker));
         yield MapShowInfo(latLng, markers);
       } catch (e) {}
     }
     if (event is NavigationTap) {
       Position userPosition = await _getCurrentPosition();
       LatLng latLng = LatLng(userPosition.latitude, userPosition.longitude);
-      markers.add(buildMarker(latLng, BitmapDescriptor.defaultMarker));
+      markers.add(_buildMarker(latLng, BitmapDescriptor.defaultMarker));
       List cameraBounds = _calculateCameraBounds(userPosition, placePosition);
-      await _createPolylines(userPosition, placePosition);
-      yield MapNavigation(userPosition, cameraBounds, polylines);
+      await _createPolyline(userPosition, placePosition);
+      yield MapNavigation(userPosition, cameraBounds, polylineMap);
     }
   }
 
-  _createPolylines(Position userPosition, Position placePosition) async {
+  _createPolyline(Position userPosition, Position placePosition) async {
     polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        "AIzaSyBwvapxyHvVcWErtmF_JsJN_dOn4UA36wo",
+        Strings.GOOGLE_API_KEY,
         PointLatLng(userPosition.latitude, userPosition.longitude),
         PointLatLng(placePosition.latitude, placePosition.longitude),
         travelMode: TravelMode.driving);
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
-        polylineCoords.add(LatLng(point.latitude, point.longitude));
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     }
     PolylineId id = PolylineId('route');
 
     Polyline polyline = Polyline(
       polylineId: id,
-      color: Colors.red,
-      points: polylineCoords,
+      color: Color(0xFF21005e),
+      points: polylineCoordinates,
       width: 5,
     );
 
-    polylines[id] = polyline;
+    polylineMap[id] = polyline;
   }
 
   _calculateCameraBounds(Position userPosition, Position placePosition) {
@@ -96,16 +98,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     return [southWest, northEast];
   }
 
-  Marker buildMarker(LatLng coords, icon) {
-    Marker marker = Marker(
-      markerId: MarkerId('$coords'),
-      position: coords,
+  Marker _buildMarker(LatLng coordinates, BitmapDescriptor icon) {
+    return Marker(
+      markerId: MarkerId('$coordinates'),
+      position: coordinates,
       icon: icon,
     );
-    return marker;
   }
 
-  Future findCoords(thoroughfare) async {
+  Future<Position> _findCoordinates(String thoroughfare) async {
     List<Placemark> placemark =
         await geolocator.placemarkFromAddress(thoroughfare);
     Position position = placemark[0].position;
